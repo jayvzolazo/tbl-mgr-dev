@@ -1,1 +1,5 @@
-var MyApp = angular.module("MyApp", ["ngRoute", "templates.app", "templates.common"]);
+(function() {
+    "use strict";
+
+    angular.module("MyApp", ["ngRoute", "templates.app", "templates.common"]);
+})();

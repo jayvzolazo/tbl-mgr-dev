@@ -184,7 +184,7 @@ module.exports = function (grunt) {
         curly:true,
         eqeqeq:true,
         immed:true,
-        latedef:'nofunc',
+        latedef:true,
         newcap:true,
         noarg:true,
         sub:true,

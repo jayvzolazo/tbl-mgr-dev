@@ -1,0 +1,26 @@
+<div>
+    <table class="table table-stripped table-responsive table-hover">
+        <thead>
+            <tr>
+                <th ng-repeat="column in vm.directiveConfig.model track by $index">{{ column.heading }}</th>
+                <th ng-if="vm.hasButtons">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in vm.rows track by $index">
+                <td ng-repeat="param in row track by $index">{{ param }}</td>
+                <td ng-if="vm.hasButtons" align="right">
+                    <div>
+                        <span ng-if="vm.buttons[vm.EDIT]">
+                            &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ vm.EDIT }}"></i>&nbsp;
+                        </span>
+
+                        <span ng-if="vm.buttons[vm.REMOVE]">
+                            &nbsp;<i class="fa fa-trash-o" aria-hidden="true" title="{{ vm.REMOVE }}"></i>&nbsp;
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
