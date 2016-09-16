@@ -48,13 +48,16 @@ module.exports = function (grunt) {
         app: ['src/app/**/*.tpl.html'],
         common: ['src/common/**/*.tpl.html']
       },
-      less: ['src/less/stylesheet.less'], // recess:build doesn't accept ** in its file patterns
-      lessWatch: ['src/less/**/*.less']
+      less: ['bower_components/bootstrap/dist/css/bootstrap.css'], // recess:build doesn't accept ** in its file patterns
+      lessWatch: ['bower_components/bootstrap/dist/css/bootstrap.css']
     },
     clean: ['<%= distdir %>/*'],
     copy: {
       assets: {
-        files: [{ dest: '<%= distdir %>', src : '**', expand: true, cwd: 'src/assets/' }]
+        files: [
+          { dest: '<%= distdir %>', src : '**', expand: true, cwd: 'src/assets/' },
+          { dest: '<%= distdir %>/font-awesome', src : ['css/**', 'fonts/**'], expand: true, cwd: 'bower_components/font-awesome/'}
+        ]
       }
     },
     karma: {

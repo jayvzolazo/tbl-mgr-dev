@@ -2,20 +2,27 @@
     <table class="table table-stripped table-responsive table-hover">
         <thead>
             <tr>
-                <th ng-repeat="column in vm.directiveConfig.model track by $index">{{ column.heading }}</th>
+                <th ng-repeat="column in vm.directiveConfig.model track by $index" ng-click="vm.EVENT.sort(vm.sortType, column.paramName, column.isSortable)" style="cursor: pointer;">
+                    <span ng-style="column.isSortable">{{ column.heading }}</span>
+                    &nbsp;
+                    <i class="fa fa-caret-down" aria-hidden="true" ng-if="column.isSortable && ((vm.sortBy == column.paramName && vm.sortType == true) || (vm.sortBy != column.paramName))"></i>
+                    <i class="fa fa-caret-up" aria-hidden="true" ng-if="column.isSortable && vm.sortBy == column.paramName && vm.sortType == false"></i>
+                </th>
                 <th ng-if="vm.hasButtons">&nbsp;</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="row in vm.rows track by $index">
-                <td ng-repeat="param in row track by $index">{{ param }}</td>
+                <td ng-repeat="param in row track by $index" ng-click="(vm.isColumnClickable($index)) ? vm.EVENT.view($index) : null">
+                    <div ng-style="vm.buttons[vm.VIEW]">{{ param }}</div>
+                </td>
                 <td ng-if="vm.hasButtons" align="right">
                     <div>
-                        <span ng-if="vm.buttons[vm.EDIT]">
+                        <span ng-if="vm.buttons[vm.EDIT]" style="cursor: pointer;" ng-click="vm.EVENT.edit($index)" class="text-info">
                             &nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" title="{{ vm.EDIT }}"></i>&nbsp;
                         </span>
 
-                        <span ng-if="vm.buttons[vm.REMOVE]">
+                        <span ng-if="vm.buttons[vm.REMOVE]" style="cursor: pointer;" ng-click="vm.EVENT.remove($index)" class="text-danger">
                             &nbsp;<i class="fa fa-trash-o" aria-hidden="true" title="{{ vm.REMOVE }}"></i>&nbsp;
                         </span>
                     </div>
