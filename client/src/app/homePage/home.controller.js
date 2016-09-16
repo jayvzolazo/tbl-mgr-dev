@@ -37,8 +37,22 @@
         };
 
         vm.events = {
-            add : function() {},
-            edit: function() {}
+            add: function() {
+                console.log("CONTROLLER - ADD");
+            },
+            edit: function(obj, index) {
+                console.log("CONTROLLER - EDIT", obj);
+            },
+            remove: function(obj, index) {
+                console.log("CONTROLLER - REMOVE", obj);
+            },
+            view: function(obj, index) {
+                console.log("CONTROLLER - VIEW", obj);
+            },
+            sort: function(sortType, sortBy) {
+                console.log("SORT TYPE", sortType);
+                console.log("SORT BY", sortBy);
+            }
         };
     }
 

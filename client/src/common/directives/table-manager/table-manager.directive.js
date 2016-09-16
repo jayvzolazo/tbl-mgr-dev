@@ -13,6 +13,9 @@
             view: false
         };
 
+        vm.sortType = true;
+        vm.sortBy = null;
+
         vm.ADD = CONST_BUTTONS.ADD;
         vm.EDIT = CONST_BUTTONS.EDIT;
         vm.REMOVE = CONST_BUTTONS.REMOVE;
@@ -52,17 +55,20 @@
                 rows.push([]);
             }
 
+            // build the data and filter (if available)
             for (var i = 0; i < modelConfig.length; i++) {
                 paramName = modelConfig[i].paramName;
                 filter = null;
                 if (modelConfig[i].filter) {
                     filter = $filter(modelConfig[i].filter);
                 }
+
                 for (var j = 0; j < modelList.length; j++) {
                     rows[j].push( getValue(modelList[j], paramName, filter) );
                 }
             }
 
+            // check and generate buttons
             if (vm.hasButtons) {
                 var buttons = vm.directiveConfig.buttons;
                 for (var b = 0; b < vm.directiveConfig.buttons.length; b++) {
@@ -76,6 +82,49 @@
         $scope.$watchCollection("vm.objectList", function() {
             vm.rows = buildRows();
         });
+
+        // table events
+        vm.EVENT = {
+            add: function() {
+                console.log("ADD");
+                vm.directiveEvents.add();
+            },
+            edit: function(index) {
+                console.log("EDIT", vm.objectList[index]);
+                vm.directiveEvents.edit(vm.objectList[index], index);
+            },
+            remove: function(index) {
+                console.log("REMOVE", vm.objectList[index]);
+                vm.directiveEvents.remove(vm.objectList[index], index);
+            },
+            view: function(index) {
+                console.log("VIEW", vm.objectList[index]);
+                vm.directiveEvents.view(vm.objectList[index], index);
+            },
+            sort: function(sortType, sortBy, isSortable) {
+                if (!isSortable) { return; }
+
+                if (sortBy === vm.sortBy) {
+                    vm.sortType = !sortType;
+                }
+                else {
+                    vm.sortBy = sortBy;
+                    vm.sortType = false;
+                }
+
+                var parentParam = null;
+
+                parentParam = sortBy.split(".")[0];
+
+                vm.directiveEvents.sort(vm.sortType, parentParam);
+            }
+        };
+
+        vm.isColumnClickable = function(index) {
+            var model = vm.directiveConfig.model[index];
+            
+            return (angular.isDefined(model) && typeof model === 'boolean') ? model.isColumnClickable : false;
+        };
     }
 
     Controller.$inject = ["$scope", "$filter", "CONST_BUTTONS"];
